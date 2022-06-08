@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify, render_template, url_for
+from flask import Flask, Blueprint, jsonify, render_template, url_for, request, redirect
 
 movies_blueprint = Blueprint("movies", __name__)
 
@@ -8,9 +8,15 @@ from presenter.models.movie import Movie
 
 @movies_blueprint.route("/movies")
 def index():
-    db.create_all()
-    movie = Movie(url="https://www.imdb.com/title/tt0110912/", title="Pulp Fiction")
+    all_movies = Movie.query.all()
+    return render_template("movies/index.html", movies=all_movies)
+
+
+@movies_blueprint.route("/movies", methods=["POST"])
+def create():
+    movie = Movie(
+        title=request.form.get("title"), release_year=request.form.get("release_year"), url=request.form.get("url")
+    )
     db.session.add(movie)
     db.session.commit()
-    print(Movie.query.all())
-    return render_template("movies/index.html")
+    return redirect("/movies")
