@@ -1,0 +1,2 @@
+ENV: "local"
+SOME_ENV_VAR: 'testenvvar'
