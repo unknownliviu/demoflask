@@ -16,3 +16,4 @@ gdp_job_tests
 .ipynb_checkpoints/*
 **.ipynb
 setup.cfg
+src/presenter/tmp/*
